@@ -1,0 +1,11 @@
+{
+  "logPath": {
+    "error": "logs/error.log",
+    "access": "logs/access.log",
+    "system": "logs/system.log"
+  },
+  "webSocket": {
+    "url": "ws://localhost:8888/",
+    "origin": "defaultOrigin"
+  }
+}

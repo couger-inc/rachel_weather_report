@@ -1,0 +1,11 @@
+version: '3'
+services:
+  ws:
+    build: .
+    environment:
+      - "TZ=Japan"
+    ports:
+      - "8889:8889"
+    volumes:
+      - .:/code
+    command: node app.js
