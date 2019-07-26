@@ -20,19 +20,17 @@ describe('Darksky', () => {
 
   describe('#generateSpeechMessage', () => {
     it('Should get message', () => {
-      const nowSummary = '曇り';
-      const todaySummary = '夕方及び夜にかけて霧雨の可能性あり。';
+      const nowIcon = 'cloudy';
       const temperatureHigh = 30.19;
       const temperatureLow = 24.71;
       const temperatureNow = 29.92;
       const actual = Darksky.generateSpeechMessage(
-          nowSummary,
-          todaySummary,
+          nowIcon,
           temperatureHigh,
           temperatureLow,
           temperatureNow);
       // eslint-disable-next-line max-len
-      const expected = '只今の天気は、曇り。夕方及び夜にかけて霧雨の可能性あり。予想最高気温は、30度。最低気温は、25度。現在の気温は、30度です。';
+      const expected = '只今の天気は、くもり。予想最高気温は、30度。最低気温は、25度。現在の気温は、30度です。';
       assert.equal(actual, expected);
     });
   });

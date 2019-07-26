@@ -53,8 +53,7 @@ wsServer.on('request', (request) => {
         rp.get(url).then((response) => {
           const infra = new Infrastructure(response);
           const speechMessage = Darksky.generateSpeechMessage(
-              infra.nowSummary,
-              infra.todaySummary,
+              infra.nowIcon,
               infra.highTemp,
               infra.lowTemp,
               infra.nowTemp);
