@@ -12,6 +12,10 @@
 ### Setup
 
 ```
+> cp config/darksky-sample.js config/darksky.js
+# replace "YOUR_API_KEY"
+# see https://darksky.net/dev
+> npm install
 > docker-compose build
 ```
 
