@@ -57,7 +57,7 @@ wsServer.on('request', (request) => {
               infra.highTemp,
               infra.lowTemp,
               infra.nowTemp);
-          Infrastructure.sendBody(connection, speechMessage);
+          Infrastructure.sendBody(connection, speechMessage, infra.nowIcon);
         }).catch((error) => {
           logger.error.error(JSON.stringify(error));
         });
