@@ -52,12 +52,14 @@ wsServer.on('request', (request) => {
             queryParams);
         rp.get(url).then((response) => {
           const infra = new Infrastructure(response);
-          const speechMessage = Darksky.generateSpeechMessage(
-              infra.nowIcon,
-              infra.highTemp,
-              infra.lowTemp,
-              infra.nowTemp);
-          Infrastructure.sendBody(connection, speechMessage, infra.nowIcon);
+          const icon = infra.nowIcon;
+          const now = infra.nowTemp.toFixed();
+          const high = infra.highTemp.toFixed();
+          const low = infra.lowTemp.toFixed();
+          const iconJp = Darksky.mapIconsJa(icon);
+          const speechMessage = Darksky.generateSpeechMessage(icon, high, low, now);
+          Infrastructure.sendBody(
+              connection, speechMessage, icon, iconJp, high, low, now);
         }).catch((error) => {
           logger.error.error(JSON.stringify(error));
         });
