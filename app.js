@@ -2,8 +2,11 @@
 const http = require('http');
 const config = require('config');
 const rp = require('request-promise');
-const {logger, Darksky, Infrastructure} = require('./lib');
+const {logger, Darksky} = require('./lib');
 const configDarksky = require('./config/darksky');
+const {inputDataFactory} = require('./lib/dto/dto');
+const {Interactor} = require('./lib/usecase/interactor');
+const {Presenter} = require('./lib/presenter/presenter');
 
 const port = process.env.PORT || 8889;
 const server = http.createServer((request, response) => {
@@ -40,25 +43,25 @@ wsServer.on('request', (request) => {
       case 'utf8':
         logger.system.debug('Received Message: ' + message.utf8Data);
 
+        const inputData = inputDataFactory(message.utf8Data);
         const darksky = new Darksky(
             configDarksky.forecastUrl,
             configDarksky.apiKey);
+        // TODO: inputData.units, inputData.langの値があれば使うようにする。
         const queryParams = {
           units: configDarksky.units,
           lang: configDarksky.lang,
         };
+        // TODO: inputData.latlangの値があれば使うようにする。
         const url = darksky.buildForecastUrl(
             configDarksky.latlng,
             queryParams);
         rp.get(url).then((response) => {
-          const infra = new Infrastructure(response);
-          const speechMessage = Darksky.generateSpeechMessage(
-              infra.nowSummary,
-              infra.todaySummary,
-              infra.highTemp,
-              infra.lowTemp,
-              infra.nowTemp);
-          Infrastructure.sendBody(connection, speechMessage);
+          const interactor = new Interactor();
+          const outputData = interactor.handle(inputData, response);
+          const presenter = new Presenter();
+          const viewModel = presenter.handle(outputData);
+          connection.sendUTF(JSON.stringify(viewModel));
         }).catch((error) => {
           logger.error.error(JSON.stringify(error));
         });
