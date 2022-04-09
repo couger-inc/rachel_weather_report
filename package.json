@@ -16,7 +16,7 @@
     "folktale": "^2.3.2",
     "lodash": "^4.17.19",
     "log4js": "^6.1.2",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "moment-range": "^4.0.2",
     "request": "^2.88.2",
     "request-promise": "^4.2.5",
